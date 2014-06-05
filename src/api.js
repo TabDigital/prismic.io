@@ -93,6 +93,9 @@
                 xdr.open('GET', url, true);
 
                 // Send the XHR
+                xdr.onprogress = function(){ };
+                xdr.ontimeout = function(){ };
+                xdr.onerror = function () { };
                 xdr.send();
             };
         }
@@ -276,7 +279,7 @@
         init: function(url, accessToken, maybeRequestHandler, maybeApiCache) {
             this.url = url + (accessToken ? (url.indexOf('?') > -1 ? '&' : '?') + 'access_token=' + accessToken : '');
             this.accessToken = accessToken;
-            this.requestHandler = maybeRequestHandler || ajaxRequest() || xdomainRequest() || nodeJSRequest() || (function() {throw new Error("No request handler available (tried XMLHttpRequest & NodeJS)");})();
+            this.requestHandler = maybeRequestHandler || xdomainRequest() || ajaxRequest() || nodeJSRequest() || (function() {throw new Error("No request handler available (tried XMLHttpRequest & NodeJS)");})();
             this.apiCache = maybeApiCache || new ApiCache();
             return this;
         },
